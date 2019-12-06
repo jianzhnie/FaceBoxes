@@ -2,8 +2,6 @@
 
 [![License](https://img.shields.io/badge/license-BSD-blue.svg)](LICENSE)
 
-By [Zisian Wong](https://github.com/zisianw), [Shifeng Zhang](http://www.cbsr.ia.ac.cn/users/sfzhang/)
-
 A [PyTorch](https://pytorch.org/) implementation of [FaceBoxes: A CPU Real-time Face Detector with High Accuracy](https://arxiv.org/abs/1708.05234). The official code in Caffe can be found [here](https://github.com/sfzhang15/FaceBoxes).
 
 ## Performance
@@ -13,15 +11,6 @@ A [PyTorch](https://pytorch.org/) implementation of [FaceBoxes: A CPU Real-time 
 | PASCAL | 96.77 % | 97.05% |
 | FDDB | 95.90 % | 96.00% |
 
-## Citation
-Please cite the paper in your publications if it helps your research:
-
-    @inproceedings{zhang2017faceboxes,
-      title = {Faceboxes: A CPU Real-time Face Detector with High Accuracy},
-      author = {Zhang, Shifeng and Zhu, Xiangyu and Lei, Zhen and Shi, Hailin and Wang, Xiaobo and Li, Stan Z.},
-      booktitle = {IJCB},
-      year = {2017}
-    }
 
 ### Contents
 - [Installation](#installation)
@@ -57,8 +46,13 @@ _Note: Codes are based on Python 3+._
 3. Train the model using WIDER FACE:
   ```Shell
   cd $FaceBoxes_ROOT/
-  python3 train.py
+  python train.py
+  
+  python main.py
   ```
+
+4. 为了能够检测小目标， 这里去掉了对于 size <16 的 box 过滤，同时增加了Priors 对于 size= 16 的密集采样
+
 
 If you do not wish to train the model, you can download [our pre-trained model](https://drive.google.com/file/d/1tRVwOlu0QtjvADQ2H7vqrRwsWEmaqioI) and save it in `$FaceBoxes_ROOT/weights`.
 
