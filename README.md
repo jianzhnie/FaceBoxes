@@ -67,7 +67,7 @@ elif min_size == 32:
     for cy, cx in product(dense_cy, dense_cx):
         anchors += [cx, cy, s_kx, s_ky]
 ```
-- comment data/data_augment.py
+- comment the following lines in  data/data_augment.py
 
 ```python
 # make sure that the cropped image contains at least one face > 16 pixel at training image scale
@@ -78,6 +78,13 @@ elif min_size == 32:
 # labels_t = labels_t[mask_b]
 
 ```
+- add loc and cls predict head in models/faceboxes.py 
+
+```python 
+loc_layers += [nn.Conv2d(128, 37 * 4, kernel_size=3, padding=1)]
+conf_layers += [nn.Conv2d(128, 37 * num_classes, kernel_size=3, padding=1)]
+```
+
 
 If you do not wish to train the model, you can download [our pre-trained model](https://drive.google.com/file/d/1tRVwOlu0QtjvADQ2H7vqrRwsWEmaqioI) and save it in `$FaceBoxes_ROOT/weights`.
 
