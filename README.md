@@ -53,6 +53,31 @@ _Note: Codes are based on Python 3+._
 
 4. 为了能够检测小目标， 这里去掉了对于 size <16 的 box 过滤，同时增加了Priors 对于 size= 16 的密集采样
 
+- modify layers/function/prior_box.py
+
+```python 
+if min_size == 16:
+    dense_cx = [x*self.steps[k]/self.image_size[1] for x in [j+0, j+0.25, j+0.5, j+0.75]]
+    dense_cy = [y*self.steps[k]/self.image_size[0] for y in [i+0, i+0.25, i+0.5, i+0.75]]
+    for cy, cx in product(dense_cy, dense_cx):
+        anchors += [cx, cy, s_kx, s_ky]
+elif min_size == 32:
+    dense_cx = [x*self.steps[k]/self.image_size[1] for x in [j+0, j+0.25, j+0.5, j+0.75]]
+    dense_cy = [y*self.steps[k]/self.image_size[0] for y in [i+0, i+0.25, i+0.5, i+0.75]]
+    for cy, cx in product(dense_cy, dense_cx):
+        anchors += [cx, cy, s_kx, s_ky]
+```
+- comment data/data_augment.py
+
+```python
+# make sure that the cropped image contains at least one face > 16 pixel at training image scale
+# b_w_t = (boxes_t[:, 2] - boxes_t[:, 0] + 1) / w * img_dim
+# b_h_t = (boxes_t[:, 3] - boxes_t[:, 1] + 1) / h * img_dim
+# mask_b = np.minimum(b_w_t, b_h_t) > 16.0
+# boxes_t = boxes_t[mask_b]
+# labels_t = labels_t[mask_b]
+
+```
 
 If you do not wish to train the model, you can download [our pre-trained model](https://drive.google.com/file/d/1tRVwOlu0QtjvADQ2H7vqrRwsWEmaqioI) and save it in `$FaceBoxes_ROOT/weights`.
 
