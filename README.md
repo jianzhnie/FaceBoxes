@@ -43,15 +43,7 @@ _Note: Codes are based on Python 3+._
   $FaceBoxes_ROOT/data/WIDER_FACE/annotations
   ```
 
-3. Train the model using WIDER FACE:
-  ```Shell
-  cd $FaceBoxes_ROOT/
-  python train.py
-  
-  python main.py
-  ```
-
-4. 为了能够检测小目标， 这里去掉了对于 size <16 的 box 过滤，同时增加了Priors 对于 size= 16 的密集采样
+3. 为了能够检测小目标， 这里去掉了对于 size <16 的 box 过滤，同时增加了Priors 对于 size= 16 的密集采样
 
 - modify layers/function/prior_box.py
 
@@ -85,6 +77,13 @@ loc_layers += [nn.Conv2d(128, 37 * 4, kernel_size=3, padding=1)]
 conf_layers += [nn.Conv2d(128, 37 * num_classes, kernel_size=3, padding=1)]
 ```
 
+4. Train the model using WIDER FACE:
+  ```Shell
+  cd $FaceBoxes_ROOT/
+  python train.py
+  
+  python main.py
+  ```
 
 If you do not wish to train the model, you can download [our pre-trained model](https://drive.google.com/file/d/1tRVwOlu0QtjvADQ2H7vqrRwsWEmaqioI) and save it in `$FaceBoxes_ROOT/weights`.
 
