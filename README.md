@@ -42,6 +42,11 @@ _Note: Codes are based on Python 3+._
   ```Shell
   $FaceBoxes_ROOT/data/WIDER_FACE/annotations
   ```
+You can use the convert tools in $FaceBoxes_ROOT/wider-face-pascal-voc-annotations, run:
+
+  ```shell
+  python  convert.py
+  ```
 
 3. 为了能够检测小目标， 这里去掉了对于 size <16 的 box 过滤，同时增加了Priors 对于 size= 16 的密集采样
 
