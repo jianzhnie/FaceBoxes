@@ -42,7 +42,7 @@ _Note: Codes are based on Python 3+._
   ```Shell
   $FaceBoxes_ROOT/data/WIDER_FACE/annotations
   ```
-You can use the convert tools in $FaceBoxes_ROOT/wider-face-pascal-voc-annotations, run:
+  You can use the convert tools in $FaceBoxes_ROOT/wider-face-pascal-voc-annotations, run:
 
   ```shell
   python  convert.py
@@ -52,35 +52,34 @@ You can use the convert tools in $FaceBoxes_ROOT/wider-face-pascal-voc-annotatio
 
 - modify layers/function/prior_box.py
 
-```python 
-if min_size == 16:
-    dense_cx = [x*self.steps[k]/self.image_size[1] for x in [j+0, j+0.25, j+0.5, j+0.75]]
-    dense_cy = [y*self.steps[k]/self.image_size[0] for y in [i+0, i+0.25, i+0.5, i+0.75]]
-    for cy, cx in product(dense_cy, dense_cx):
-        anchors += [cx, cy, s_kx, s_ky]
-elif min_size == 32:
-    dense_cx = [x*self.steps[k]/self.image_size[1] for x in [j+0, j+0.25, j+0.5, j+0.75]]
-    dense_cy = [y*self.steps[k]/self.image_size[0] for y in [i+0, i+0.25, i+0.5, i+0.75]]
-    for cy, cx in product(dense_cy, dense_cx):
-        anchors += [cx, cy, s_kx, s_ky]
-```
+  ```python 
+  if min_size == 16:
+      dense_cx = [x*self.steps[k]/self.image_size[1] for x in [j+0, j+0.25, j+0.5, j+0.75]]
+      dense_cy = [y*self.steps[k]/self.image_size[0] for y in [i+0, i+0.25, i+0.5, i+0.75]]
+      for cy, cx in product(dense_cy, dense_cx):
+          anchors += [cx, cy, s_kx, s_ky]
+  elif min_size == 32:
+      dense_cx = [x*self.steps[k]/self.image_size[1] for x in [j+0, j+0.25, j+0.5, j+0.75]]
+      dense_cy = [y*self.steps[k]/self.image_size[0] for y in [i+0, i+0.25, i+0.5, i+0.75]]
+      for cy, cx in product(dense_cy, dense_cx):
+          anchors += [cx, cy, s_kx, s_ky]
+  ```
 - comment the following lines in  data/data_augment.py
 
-```python
-# make sure that the cropped image contains at least one face > 16 pixel at training image scale
-# b_w_t = (boxes_t[:, 2] - boxes_t[:, 0] + 1) / w * img_dim
-# b_h_t = (boxes_t[:, 3] - boxes_t[:, 1] + 1) / h * img_dim
-# mask_b = np.minimum(b_w_t, b_h_t) > 16.0
-# boxes_t = boxes_t[mask_b]
-# labels_t = labels_t[mask_b]
-
-```
+  ```python
+  # make sure that the cropped image contains at least one face > 16 pixel at training image scale
+  # b_w_t = (boxes_t[:, 2] - boxes_t[:, 0] + 1) / w * img_dim
+  # b_h_t = (boxes_t[:, 3] - boxes_t[:, 1] + 1) / h * img_dim
+  # mask_b = np.minimum(b_w_t, b_h_t) > 16.0
+  # boxes_t = boxes_t[mask_b]
+  # labels_t = labels_t[mask_b]
+  ```
 - add loc and cls predict head in models/faceboxes.py 
 
-```python 
-loc_layers += [nn.Conv2d(128, 37 * 4, kernel_size=3, padding=1)]
-conf_layers += [nn.Conv2d(128, 37 * num_classes, kernel_size=3, padding=1)]
-```
+  ```python 
+  loc_layers += [nn.Conv2d(128, 37 * 4, kernel_size=3, padding=1)]
+  conf_layers += [nn.Conv2d(128, 37 * num_classes, kernel_size=3, padding=1)]
+  ```
 
 4. Train the model using WIDER FACE:
   ```Shell
